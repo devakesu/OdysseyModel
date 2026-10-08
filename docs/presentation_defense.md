@@ -110,7 +110,7 @@
   - *Pure Model Inference*: **138,000 flows/sec** (2.76s for 381,007 flows on a single CPU instance).
   - *End-to-End Pipeline*: **41,400 flows/sec** (9.19s total including CSV parsing, 61 feature transforms, inference, and serialization).
   - *Scale Capacity*: Over **3.5 Billion flows/day** on a single workstation—comfortably exceeding the "hundreds of millions of flows/day" enterprise benchmark without needing model distillation.
-- **Deliverable Package (`team_model/` and `lightbulb_model/`)**:
+- **Deliverable Package (`light_bulb_model/` and `team_model/`)**:
   - `model.joblib`: Serialized Multi-View Tri-Ensemble and feature extractor.
   - `predict.py`: Tested on unlabelled 38-feature CSV format with zero dependencies on loose notebooks.
   - `requirements.txt`: Clean pinned dependencies compatible with evaluation environments.
@@ -307,7 +307,7 @@ To verify enterprise deployment viability ("hundreds of millions of network flow
 
 ### Synchronized Packages
 * **[`team_model/`](file:///k:/Dev/Odyssey/team_model/)**: The competition template default directory.
-* **[`lightbulb_model/`](file:///k:/Dev/Odyssey/lightbulb_model/)**: The official team-specific directory for Team Light Bulb.
+* **[`light_bulb_model/`](file:///k:/Dev/Odyssey/light_bulb_model/)**: The official team-specific directory for Team Light Bulb.
 
 Both directories contain identical, self-contained artifacts:
 1. `model.joblib`: Serialized Multi-View Tri-Ensemble and feature extractor.

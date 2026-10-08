@@ -118,10 +118,10 @@ def main():
     # Resolve model artifact
     model_candidates = [
         args.model or "",
+        "light_bulb_model/model.joblib",
         "team_model/model.joblib",
-        "lightbulb_model/model.joblib",
-        "../team_model/model.joblib",
-        "../lightbulb_model/model.joblib"
+        "../light_bulb_model/model.joblib",
+        "../team_model/model.joblib"
     ]
     model_path = ""
     for cand in model_candidates:

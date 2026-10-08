@@ -5,17 +5,17 @@ starter/hour3_tune_w.py
 ML Hackathon - Network Intrusion Detection
 Hour 3 Cost Inject: Instant Re-Optimization Tool
 
-When organizers announce the true cost weight w at Hour 3 (e.g. w=35, w=50, w=15):
+When organizers announce the true cost weight w at Hour 3 (announced w=40):
 1. Loads the champion Multi-View Tri-Ensemble from team_model/model.joblib.
 2. Computes/uses validation probabilities across all 381,007 validation flows.
 3. Rapidly scans decision thresholds to find the exact T* minimizing Cost = w * FN + FP.
 4. Compares against standard T=0.50 and reports cost reduction percentage.
-5. Updates best_threshold and cost_weight in both team_model/ and odyssey_model/ packages.
+5. Updates best_threshold and cost_weight in both team_model/ and light_bulb_model/ packages.
 6. Updates metadata.json in both directories with the new operational metrics.
 
 Usage:
 ------
-python hour3_tune_w.py --cost-weight 35.0
+python hour3_tune_w.py --cost-weight 40.0
 python hour3_tune_w.py --cost-weight 50.0
 """
 
@@ -136,17 +136,16 @@ def main():
     package["metrics"]["f1"] = float(best_res["f1"])
 
     destinations = [
+        "light_bulb_model/model.joblib",
         "team_model/model.joblib",
-        "lightbulb_model/model.joblib",
-        "person1_model.joblib"
     ]
     for dest in destinations:
-        if os.path.exists(os.path.dirname(dest)) or os.path.dirname(dest) == "":
+        if os.path.exists(os.path.dirname(dest)):
             joblib.dump(package, dest)
             print(f"    [OK] Updated: {dest}")
 
     # 6. Update metadata.json
-    for meta_dest in ["team_model/metadata.json", "lightbulb_model/metadata.json"]:
+    for meta_dest in ["light_bulb_model/metadata.json", "team_model/metadata.json"]:
         if os.path.exists(meta_dest):
             with open(meta_dest, "r") as f:
                 meta = json.load(f)

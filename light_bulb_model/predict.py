@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-starter/predict.py
-==================
+light_bulb_model/predict.py
+===========================
 ML Hackathon  -  Network Intrusion Detection
-Standard Model Inference Script Template
+Team Light Bulb — Multi-View Tri-Ensemble Inference Script
 
-Participants: You can use or adapt this script for your final model submission.
+Organizers: This is the official Team Light Bulb model inference script.
 Organizers will test your model by running:
     python predict.py --input path/to/test_features.csv --output predictions.csv
 
@@ -18,12 +18,19 @@ This script:
 """
 
 import os
-os.environ.setdefault("LOKY_MAX_CPU_COUNT", "32")
 import sys
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="joblib")
+os.environ.setdefault("LOKY_MAX_CPU_COUNT", "16")
 import argparse
 import joblib
 import numpy as np
 import pandas as pd
+
+# Ensure local directory is on sys.path so features.py is always importable
+script_dir = os.path.dirname(os.path.abspath(__file__))
+if script_dir not in sys.path:
+    sys.path.insert(0, script_dir)
 
 # Import features module if available
 try:
