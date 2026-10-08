@@ -1,5 +1,5 @@
 {
-  "team_name": "Odyssey",
+  "team_name": "Light Bulb",
   "model_architecture": "Multi-View Tri-Ensemble (Clean + Shift-Augmented + Invariant Ratios)",
   "training_rows": 1524028,
   "validation_rows": 381007,

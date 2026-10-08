@@ -119,9 +119,9 @@ def main():
     model_candidates = [
         args.model or "",
         "team_model/model.joblib",
-        "odyssey_model/model.joblib",
+        "lightbulb_model/model.joblib",
         "../team_model/model.joblib",
-        "../odyssey_model/model.joblib"
+        "../lightbulb_model/model.joblib"
     ]
     model_path = ""
     for cand in model_candidates:

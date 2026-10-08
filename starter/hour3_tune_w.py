@@ -137,7 +137,7 @@ def main():
 
     destinations = [
         "team_model/model.joblib",
-        "odyssey_model/model.joblib",
+        "lightbulb_model/model.joblib",
         "person1_model.joblib"
     ]
     for dest in destinations:
@@ -146,7 +146,7 @@ def main():
             print(f"    [OK] Updated: {dest}")
 
     # 6. Update metadata.json
-    for meta_dest in ["team_model/metadata.json", "odyssey_model/metadata.json"]:
+    for meta_dest in ["team_model/metadata.json", "lightbulb_model/metadata.json"]:
         if os.path.exists(meta_dest):
             with open(meta_dest, "r") as f:
                 meta = json.load(f)
