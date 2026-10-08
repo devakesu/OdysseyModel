@@ -157,7 +157,7 @@ Team Odyssey implemented an instant re-tuning tool ([`starter/hour3_tune_w.py`](
 * **Automatic Package Synchronization**: Updates `best_threshold`, `cost_weight`, and operational metrics in both [`team_model/`](file:///k:/Dev/Odyssey/team_model/) and [`odyssey_model/`](file:///k:/Dev/Odyssey/odyssey_model/).
 * **Cost Trajectory Under Dynamic $w$**:
   * At $w = 20$: $T^* = 0.0604 \implies \text{Cost} = 3,431$ (FN = 6, FP = 3,311)
-  * At $w = 35$: $T^* = 0.0350 \implies \text{Cost} = 3,535$ (FN = 4, FP = 3,395)
+  * At $w = 40$ (Official Announced Weight): $T^* = 0.0600 \implies \text{Cost} = 3,552$ (FN = 6, FP = 3,312) | **92.0% cost reduction** vs default $T=0.50$ (44,226)
   * At $w = 50$: $T^* = 0.0210 \implies \text{Cost} = 3,610$ (FN = 3, FP = 3,460)
 
 ---

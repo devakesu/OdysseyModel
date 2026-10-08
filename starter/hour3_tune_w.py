@@ -22,6 +22,7 @@ python hour3_tune_w.py --cost-weight 50.0
 import os
 os.environ.setdefault("LOKY_MAX_CPU_COUNT", "32")
 import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import argparse
 import time
 import json

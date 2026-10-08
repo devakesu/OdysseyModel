@@ -94,10 +94,14 @@ def main():
         threshold = args.threshold
         print(f"[*] Decision threshold explicitly set: T = {threshold:.4f}")
     elif args.cost_weight is not None:
-        threshold = 1.0 / (args.cost_weight + 1.0)
-        print(f"[*] Decision threshold dynamically computed for w = {args.cost_weight:.1f}: T* = {threshold:.4f}")
+        if abs(package.get("cost_weight", 0) - args.cost_weight) < 1e-3:
+            threshold = package.get("best_threshold", 1.0 / (args.cost_weight + 1.0))
+            print(f"[*] Using calibrated threshold for w = {args.cost_weight:.1f}: T* = {threshold:.4f}")
+        else:
+            threshold = 1.0 / (args.cost_weight + 1.0)
+            print(f"[*] Decision threshold dynamically computed for w = {args.cost_weight:.1f}: T* = {threshold:.4f}")
     else:
-        threshold = package.get("best_threshold", 0.0405)
+        threshold = package.get("best_threshold", 0.0600)
         print(f"[*] Using model package calibrated threshold: T* = {threshold:.4f}")
 
     print(f"[*] Reading test features: {args.input} ...")

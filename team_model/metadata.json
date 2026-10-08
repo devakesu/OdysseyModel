@@ -4,7 +4,7 @@
   "training_rows": 1524028,
   "validation_rows": 381007,
   "decision_threshold": 0.060000000000000005,
-  "cost_weight": 20.0,
+  "cost_weight": 40.0,
   "num_features": 61,
   "validation_metrics": {
     "f1_score": 0.9636924693060206,
@@ -13,7 +13,7 @@
     "precision": 0.9300665328968212,
     "false_negatives": 6,
     "false_positives": 3312,
-    "operational_cost": 3432,
+    "operational_cost": 3552,
     "decision_threshold": 0.060000000000000005
   }
 }

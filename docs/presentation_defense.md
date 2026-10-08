@@ -4,12 +4,12 @@
 ---
 
 ### Slide 1: Executive Summary & Performance Delta
-- **Problem**: Binary intrusion detection on 38 flow-level UNSW-NB15 features under asymmetric operational risk ($w \cdot \text{FN} + \text{FP}$) and zero-day threat exposure.
+- **Problem**: Binary intrusion detection on 38 flow-level UNSW-NB15 features under severe asymmetric operational risk ($w \cdot \text{FN} + \text{FP}$, where announced $w = 40$) and zero-day threat exposure.
 - **Key Results on Full 381,007 Validation Flows**:
   - **PR-AUC**: **0.9989** (Starter baseline: 0.9916)
   - **F1-Score**: **0.9800** at $T=0.50$ | **0.9637** at cost-optimal $T^*$
   - **Attack Detection Recall**: **99.99%** (Detected 44,034 / 44,040 validation attacks; **only 6 missed**)
-  - **Operational Cost Reduction**: **84.3% reduction in asymmetric risk** (from 21,814 baseline down to 3,431 at $w=20$)
+  - **Operational Cost Reduction**: **92.0% reduction in asymmetric risk** (from 44,226 default threshold down to 3,552 at announced $w=40$)
 
 ---
 
@@ -59,13 +59,13 @@
 ---
 
 ### Slide 6: Asymmetric Operational Cost Optimization ($w \cdot \text{FN} + \text{FP}$)
-- **The SOC Tradeoff**: Missing an active breach (FN) costs $w$ times more than triaging a false alarm (FP).
+- **The SOC Tradeoff**: Missing an active breach (FN) costs $40\times$ more than triaging a false alarm (FP) ($w = 40.0$).
 - **Mathematical Optimization**:
-  - Calibrated Bayes decision threshold: $T^* \approx \frac{1}{w + 1}$.
-  - At $w=20$, standard threshold $T=0.50$ suffered 1,056 missed intrusions.
-  - Optimized threshold $T^* = 0.0604$ cuts missed intrusions from 1,056 down to **only 6**, achieving a **3,431 total cost score** (84.3% reduction).
-  - Normal traffic specificity remains high at **99.02%** (false alarms restricted to <1%).
-  - Dynamic support for newly announced $w$ values at Hour 3 via `predict.py --cost-weight <W>`.
+  - Calibrated Bayes decision threshold: $T^* \approx \frac{1}{w + 1} = \frac{1}{41} \approx 0.0244$.
+  - At announced $w=40$, standard default threshold $T=0.50$ suffered 1,089 missed intrusions, exploding operational cost to **44,226**.
+  - Calibrated optimal threshold $T^* = 0.0600$ cuts missed intrusions from 1,089 down to **only 6**, achieving a **3,552 total cost score** (**92.0% risk reduction**).
+  - Normal traffic specificity remains high at **99.02%** (false alarms restricted to <1% across 336,967 benign flows).
+  - Fully automated Hour 3 re-optimization verified in 23 seconds via `starter/hour3_tune_w.py --cost-weight 40.0`.
 
 ---
 

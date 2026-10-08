@@ -172,7 +172,7 @@ def load_ground_truth(filepath):
     }
 
 
-def calculate_metrics(y_true, y_pred, y_prob=None, cost_weight=20.0):
+def calculate_metrics(y_true, y_pred, y_prob=None, cost_weight=40.0):
     """
     Calculate intrusion detection performance metrics.
     """
@@ -281,7 +281,7 @@ def main():
     parser.add_argument("--ground-truth", "-g", type=str, default=None, help="Path to validation.csv ground truth")
     parser.add_argument("--validate-only", action="store_true", help="Only validate submission file format without scoring")
     parser.add_argument("--expected-rows", type=int, default=None, help="Expected number of submission rows (e.g. 254005 for challenge, 381007 for test)")
-    parser.add_argument("--cost-weight", type=float, default=20.0, help="False-negative penalty weight (default: 20.0)")
+    parser.add_argument("--cost-weight", type=float, default=40.0, help="False-negative penalty weight (default: 40.0)")
     args = parser.parse_args()
 
     print("[*] Validating submission file: {} ...".format(args.submission))
