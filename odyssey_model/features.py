@@ -44,9 +44,10 @@ class NetworkFeatureExtractor:
     Self-contained feature extractor that fits on training data and transforms
     any train, validation, challenge, or final test dataset identically.
     """
-    def __init__(self, top_k_proto=30, drop_leakage_cols=True):
+    def __init__(self, top_k_proto=30, drop_leakage_cols=True, invariant_only=False):
         self.top_k_proto = top_k_proto
         self.drop_leakage_cols = drop_leakage_cols
+        self.invariant_only = invariant_only
         self.cat_levels = {}
         self.feature_names_ = []
         self.categorical_indices_ = []
@@ -117,8 +118,17 @@ class NetworkFeatureExtractor:
         # TCP Flag Probes (Half-open / unacknowledged connections)
         X["is_syn_only"] = (((X["swin"].values > 0) & (X["dwin"].values == 0))).astype(np.float32)
 
+        # Optional invariant-only filtering: drop raw magnitude metrics susceptible to bandwidth/duration shift
+        if self.invariant_only:
+            magnitude_cols = [
+                "dur", "sbytes", "dbytes", "Spkts", "Dpkts", "Sload", "Dload", "res_bdy_len",
+                "log_dur", "log_sbytes", "log_dbytes", "log_Sload", "log_Dload", "log_res_bdy_len"
+            ]
+            drop_mag = [c for c in magnitude_cols if c in X.columns]
+            X.drop(columns=drop_mag, inplace=True)
+
         self.feature_names_ = list(X.columns)
-        self.categorical_indices_ = [X.columns.get_loc(c) for c in CATEGORICAL_COLS]
+        self.categorical_indices_ = [X.columns.get_loc(c) for c in CATEGORICAL_COLS if c in X.columns]
         return X
 
     def fit_transform(self, df):
@@ -144,4 +154,24 @@ class EnsembleModel:
                 p = model.predict(X)
             probs += w * p
         return np.vstack([1.0 - probs, probs]).T
+
+
+class ColumnSubsetClassifier:
+    """Wraps a model to evaluate strictly on a subset of column indices (e.g. invariant features)."""
+    def __init__(self, base_model, column_indices):
+        self.base_model = base_model
+        self.column_indices = list(column_indices)
+
+    def predict_proba(self, X):
+        if isinstance(X, pd.DataFrame):
+            X_sub = X.iloc[:, self.column_indices]
+        elif isinstance(X, np.ndarray):
+            X_sub = X[:, self.column_indices]
+        else:
+            X_sub = X
+        if hasattr(self.base_model, "predict_proba"):
+            return self.base_model.predict_proba(X_sub)
+        p = self.base_model.predict(X_sub)
+        return np.vstack([1.0 - p, p]).T
+
 
